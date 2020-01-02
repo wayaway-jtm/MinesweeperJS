@@ -33,9 +33,8 @@ const cells = document.getElementsByTagName('td');
 for (const tile of cells) {
     const newTile = new Tile(tile.id[0], tile.id.substring(1));
     
-    tile.addEventListener('mousedown', e => {
-        
-    })
+    newTile.addEventListener('mousedown', onMouseDown);
+    newTile.addEventListener('mouseup', onMouseUp);
 
     tiles.push(newTile);
     // TODO: add onClick/onContextMenu to tile
@@ -43,14 +42,25 @@ for (const tile of cells) {
 
 // Functions
 
-// onMouseDown
-//  - "press" tile (change look)
+/**
+ * TODO: "press" tile (change look)
+ * 
+ * @param {*} e Event argument
+ */
+let onMouseDown = e => {
 
-// onMouseUp
-//  - reveal tile or appropriate action
-//  - on revealed tile w/ flagged adjacent tiles
-//      equal to adjacent mines
-//      - reveal all adjacent tiles
+};
+
+/**
+ * TODO: reveal tile or appropriate action,
+ *       on revealed tile w/ flagged adjacent tiles
+ *         equal to adjacent mines
+ *          - reveal all adjacent tiles
+ * @param {*} e Event argument
+ */
+let onMouseUp = e => {
+
+};
 
 // reveal tile
 
