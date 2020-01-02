@@ -31,13 +31,7 @@ let tiles = [];
 // Populate tiles
 const cells = document.getElementsByTagName('td');
 for (const tile of cells) {
-    const newTile; 
-    if (tile.id.length === 2)
-    {
-        newTile = new Tile(tile.id[0], tile.id[1]);
-    } else {
-        newTIle = new Tile(tile.id[0], tile.id.substring(1));
-    }
+    const newTile = new Tile(tile.id[0], tile.id.substring(1));
     
     tile.addEventListener('mousedown', e => {
         
