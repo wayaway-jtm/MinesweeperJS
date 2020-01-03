@@ -62,6 +62,15 @@ let onMouseUp = e => {
 
 };
 
+/**
+ * TODO: flag tile
+ * 
+ * @param {*} e Event argument
+ */
+let onRightClick = e => {
+
+};
+
 // reveal tile
 
 // flag tile (onContextMenu)
