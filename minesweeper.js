@@ -33,8 +33,8 @@ const cells = document.getElementsByTagName('td');
 for (const tile of cells) {
     const newTile = new Tile(tile.id[0], tile.id.substring(1));
     
-    newTile.addEventListener('mousedown', onMouseDown);
-    newTile.addEventListener('mouseup', onMouseUp);
+    tile.addEventListener('mousedown', onMouseDown);
+    tile.addEventListener('mouseup', onMouseUp);
 
     tiles.push(newTile);
     // TODO: add onClick/onContextMenu to tile
@@ -48,7 +48,7 @@ for (const tile of cells) {
  * @param {*} e Event argument
  */
 let onMouseDown = e => {
-
+    let tile = e.target;
 };
 
 /**
