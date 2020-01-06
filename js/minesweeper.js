@@ -10,6 +10,8 @@ class Tile {
         this.row = row;
         this.col = column;
         this.mine = false;
+        this.flagged = false;
+        this.value = 0;
     }
 
     getRow() {
@@ -20,11 +22,19 @@ class Tile {
         return this.col;
     }
 
+    getValue() {
+        return this.value;
+    }
+
     isMine() {
         return this.mine;
     }
 
-}
+    isFlagged() {
+        return this.flagged;
+    }
+
+};
 
 let tiles = [];
 
@@ -35,9 +45,9 @@ for (const tile of cells) {
     
     tile.addEventListener('mousedown', onMouseDown);
     tile.addEventListener('mouseup', onMouseUp);
+    tile.addEventListener('contextmenu', onRightClick);
 
     tiles.push(newTile);
-    // TODO: add onClick/onContextMenu to tile
 }
 
 // Functions
@@ -47,8 +57,9 @@ for (const tile of cells) {
  * 
  * @param {*} e Event argument
  */
-let onMouseDown = e => {
+function onMouseDown (e) {
     let tile = e.target;
+    tile.classList = ['pressed'];
 };
 
 /**
@@ -58,22 +69,21 @@ let onMouseDown = e => {
  *          - reveal all adjacent tiles
  * @param {*} e Event argument
  */
-let onMouseUp = e => {
-
+function onMouseUp (e){
+    let tile = e.target;
+    tile.classList = ['open'];
 };
 
 /**
- * TODO: flag tile
+ * TODO: toggle tile flag
  * 
  * @param {*} e Event argument
  */
-let onRightClick = e => {
+function onRightClick (e) {
 
 };
 
 // reveal tile
-
-// flag tile (onContextMenu)
 
 // get adjacent tiles
 

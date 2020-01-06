@@ -6,3 +6,34 @@ body {
     margin: 0;
     padding: 0;
 }
+
+#gameBoard {
+    border-spacing: 0;
+}
+
+td {
+    height: 20px;
+    width: 20px;
+    margin: 0;
+    padding: 0;
+    background-color: #bdbdbd;
+}
+
+td.hidden {
+    border-bottom: solid 2px #7b7b7b;
+    border-right: solid 2px #7b7b7b;
+    border-top: solid 2px #fff;
+    border-left: solid 2px #fff;
+}
+
+td.pressed {
+    border-top: solid 1px #7b7b7b;
+    border-left: solid 1px #7b7b7b;
+    border-bottom: none;
+    border-right: none;
+}
+
+td.open {
+    /* DEBUG color */
+    background-color: red;
+}
