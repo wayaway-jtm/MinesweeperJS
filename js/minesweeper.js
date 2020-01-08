@@ -55,7 +55,6 @@ for (const tile of cells) {
 
 /**
  * Handles mouseDown event
- * 
  * @param {*} e Event argument
  */
 function onMouseDown(e) {
@@ -68,10 +67,7 @@ function onMouseDown(e) {
 };
 
 /**
- * TODO: reveal tile or appropriate action,
- *       on revealed tile w/ flagged adjacent tiles
- *         equal to adjacent mines
- *          - reveal all adjacent tiles
+ * Handles mouseUp event
  * @param {*} e Event argument
  */
 function onMouseUp(e) {
@@ -84,8 +80,7 @@ function onMouseUp(e) {
 };
 
 /**
- * TODO: toggle tile flag
- * 
+ * Toggles flag on tile
  * @param {*} e Event argument
  */
 function onRightClick(e) {
@@ -96,8 +91,10 @@ function onRightClick(e) {
         // Toggling flag
         if (tile.classList.contains('flagged')) {
             tile.classList = ['hidden'];
+            tile.addEventListener('mousedown', onMouseDown);
         } else {
             tile.classList = ['flagged'];
+            tile.removeEventListener('mousedown', onMouseDown);
         }
     }
 };
