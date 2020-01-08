@@ -37,3 +37,36 @@ td.open {
     /* DEBUG color */
     background-color: red;
 }
+
+/* Number Colors */
+td.num1 {
+    color: blue
+}
+
+td.num2 {
+    color: green   
+}
+
+td.num3 {
+    color: red
+}
+
+td.num4 {
+    color: darkblue
+}
+
+td.num5 {
+    color: maroon
+}
+
+td.num6 {
+    color: darkcyan
+}
+
+td.num7 {
+    color: purple
+}
+
+td.num8 {
+    color: orange
+}
