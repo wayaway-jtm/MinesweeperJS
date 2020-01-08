@@ -53,7 +53,7 @@ for (const tile of cells) {
 // Functions
 
 /**
- * TODO: "press" tile (change look)
+ * Handles mouseDown event
  * 
  * @param {*} e Event argument
  */
@@ -80,7 +80,8 @@ function onMouseUp (e){
  * @param {*} e Event argument
  */
 function onRightClick (e) {
-
+    let tile = e.target;
+    tile.classList = ['flagged'];
 };
 
 // reveal tile
