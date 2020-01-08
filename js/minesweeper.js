@@ -42,10 +42,11 @@ let tiles = [];
 const cells = document.getElementsByTagName('td');
 for (const tile of cells) {
     const newTile = new Tile(tile.id[0], tile.id.substring(1));
-    
+
     tile.addEventListener('mousedown', onMouseDown);
     tile.addEventListener('mouseup', onMouseUp);
     tile.addEventListener('contextmenu', onRightClick);
+    tile.addEventListener('mouseleave', onMouseLeave);
 
     tiles.push(newTile);
 }
@@ -57,9 +58,13 @@ for (const tile of cells) {
  * 
  * @param {*} e Event argument
  */
-function onMouseDown (e) {
-    let tile = e.target;
-    tile.classList = ['pressed'];
+function onMouseDown(e) {
+    e.preventDefault();
+    // Trigger only on left click
+    if (e.buttons === 1) {
+        let tile = e.target;
+        tile.classList = ['pressed'];
+    }
 };
 
 /**
@@ -69,9 +74,12 @@ function onMouseDown (e) {
  *          - reveal all adjacent tiles
  * @param {*} e Event argument
  */
-function onMouseUp (e){
+function onMouseUp(e) {
     let tile = e.target;
-    tile.classList = ['open'];
+    // Triggering only if pressed first
+    if (tile.classList.contains('pressed')) {
+        tile.classList = ['open'];
+    }
 };
 
 /**
@@ -79,9 +87,30 @@ function onMouseUp (e){
  * 
  * @param {*} e Event argument
  */
-function onRightClick (e) {
+function onRightClick(e) {
+    e.preventDefault();
     let tile = e.target;
-    tile.classList = ['flagged'];
+    // Flagging only if not open
+    if (!tile.classList.contains('open')) {
+        // Toggling flag
+        if (tile.classList.contains('flagged')) {
+            tile.classList = ['hidden'];
+        } else {
+            tile.classList = ['flagged'];
+        }
+    }
+};
+
+/**
+ * 
+ * @param {*} e Mouse Event argument
+ */
+function onMouseLeave(e) {
+    // Resets tile if pressed
+    let tile = e.target;
+    if (tile.classList.contains('pressed')) {
+        tile.classList = ['hidden'];
+    }
 };
 
 // reveal tile

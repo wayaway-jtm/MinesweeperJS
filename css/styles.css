@@ -19,7 +19,7 @@ td {
     background-color: #bdbdbd;
 }
 
-td.hidden {
+td.hidden, td.flagged {
     border-bottom: solid 2px #7b7b7b;
     border-right: solid 2px #7b7b7b;
     border-top: solid 2px #fff;
@@ -31,6 +31,10 @@ td.pressed {
     border-left: solid 1px #7b7b7b;
     border-bottom: none;
     border-right: none;
+}
+
+td.flagged {
+    background-image: url('../imgs/flag.svg');
 }
 
 td.open {
