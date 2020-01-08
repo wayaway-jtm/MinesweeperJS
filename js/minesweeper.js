@@ -79,6 +79,7 @@ function onMouseUp(e) {
     // Triggering only if pressed first
     if (tile.classList.contains('pressed')) {
         tile.classList = ['open'];
+        tile.removeEventListener('mousedown', onMouseDown);
     }
 };
 
