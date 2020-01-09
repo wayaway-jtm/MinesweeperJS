@@ -131,6 +131,7 @@ function onMouseLeave(e) {
 };
 //#endregion
 
+//#region Mine Generation
 function randomizeMines() {
     for (let i = 0; i < MINE_TOTAL; i++) {
         let mineTile = getEmptyTile();
@@ -162,6 +163,8 @@ function getEmptyTile() {
         return tiles[index];
     }
 }
+
+//#endregion
 
 //#region HTML/Tile Interaction
 
