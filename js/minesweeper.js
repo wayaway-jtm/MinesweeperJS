@@ -135,12 +135,7 @@ function onMouseLeave(e) {
 function randomizeMines() {
     for (let i = 0; i < MINE_TOTAL; i++) {
         let mineTile = getEmptyTile();
-        let loopCount = 0;
-        while (typeof mineTile === 'undefined') {
-            console.log(`------UNDEFINED ${++loopCount}`);
-            mineTile = getEmptyTile();
-        }
-        //console.log(mineTile);
+
         mineTile.mine = true;
         // DEBUG logs mine positions
         // console.log(`row: ${mineTile.row} col: ${mineTile.col}`);
@@ -153,11 +148,10 @@ function randomizeMines() {
 function getEmptyTile() {
     let max = tiles.length - 1;
     let index = Math.floor(Math.random() * max);
-    //console.log(`index ${index} of ${max}`);
 
     if (tiles[index].isMine()) {
         console.log(`RECURSION ${++recursiveCounter}`)
-        getEmptyTile();
+        return getEmptyTile();
     } else {
         recursiveCounter = 0;
         return tiles[index];
