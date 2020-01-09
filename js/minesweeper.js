@@ -163,6 +163,8 @@ function getEmptyTile() {
     }
 }
 
+//#region HTML/Tile Interaction
+
 function getRowFromHTML(htmlTile) {
     return htmlTile.id[0];
 }
@@ -189,6 +191,8 @@ function getMatchingJSTile(htmlTile) {
     }
     return null;
 }
+
+//#endregion
 
 // get adjacent tiles
 
