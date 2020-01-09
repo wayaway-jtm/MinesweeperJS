@@ -26,7 +26,7 @@ td.hidden, td.flagged {
     border-left: solid 2px #fff;
 }
 
-td.pressed {
+td.pressed, td.mine {
     border-top: solid 1px #7b7b7b;
     border-left: solid 1px #7b7b7b;
     border-bottom: none;
@@ -37,9 +37,14 @@ td.flagged {
     background-image: url('../imgs/flag.svg');
 }
 
+td.mine {
+    background-color: red;
+    background-image: url('../imgs/mine.svg');
+}
+
 td.open {
     /* DEBUG color */
-    background-color: red;
+    background-color: grey;
 }
 
 /* Number Colors */
