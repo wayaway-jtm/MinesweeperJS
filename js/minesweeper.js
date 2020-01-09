@@ -59,6 +59,7 @@ for (const tile of cells) {
 }
 
 randomizeMines();
+// compute & assign tile values
 
 /*
     Functions
@@ -187,6 +188,13 @@ function getMatchingJSTile(htmlTile) {
         }
     }
     return null;
+}
+
+//#endregion
+
+//#region Tile Value Generation
+function setTileValues() {
+    
 }
 
 //#endregion
