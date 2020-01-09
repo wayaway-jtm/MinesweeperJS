@@ -53,6 +53,7 @@ for (const tile of cells) {
 
 // Functions
 
+//#region Mouse Events
 /**
  * Handles mouseDown event
  * @param {*} e Event argument
@@ -100,7 +101,7 @@ function onRightClick(e) {
 };
 
 /**
- * 
+ * Handles clicking then leaving tile
  * @param {*} e Mouse Event argument
  */
 function onMouseLeave(e) {
@@ -110,6 +111,7 @@ function onMouseLeave(e) {
         tile.classList = ['hidden'];
     }
 };
+//#endregion
 
 // reveal tile
 
