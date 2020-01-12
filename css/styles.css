@@ -45,6 +45,7 @@ td.mine {
 td.open {
     /* DEBUG color */
     background-color: gainsboro;
+    text-align: center;
 }
 
 /* Number Colors */

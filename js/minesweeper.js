@@ -1,5 +1,5 @@
 "use strict";
-
+let count = 0;
 const ALPHABET = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
     'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
     'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
@@ -22,7 +22,7 @@ class Tile {
     }
 
     getCol() {
-        return this.col;
+        return Number(this.col);
     }
 
     getCoords() {
@@ -59,7 +59,7 @@ for (const tile of cells) {
 }
 
 randomizeMines();
-// compute & assign tile values
+setTileValues();
 
 /*
     Functions
@@ -88,12 +88,13 @@ function onMouseUp(e) {
     let tile = e.target;
     // Triggering only if pressed first
     if (tile.classList.contains('pressed')) {
-        tile.removeEventListener('mousedown', onMouseDown);
         if (tiles.find(t => t.getCoords() === tile.id).isMine()) {
             tile.classList = ['mine'];
         } else {
             tile.classList = ['open'];
+            setTileNum(tile);
         }
+        tile.removeEventListener('mousedown', onMouseDown);
     }
 };
 
@@ -151,7 +152,6 @@ function getEmptyTile() {
     let index = Math.floor(Math.random() * max);
 
     if (tiles[index].isMine()) {
-        console.log(`RECURSION ${++recursiveCounter}`)
         return getEmptyTile();
     } else {
         recursiveCounter = 0;
@@ -190,14 +190,109 @@ function getMatchingJSTile(htmlTile) {
     return null;
 }
 
+function isRowAdjacent(centerTile, adjacentTile) {
+    let tileRow = centerTile.getRow();
+    let prevRowLetter = ALPHABET[ALPHABET.indexOf(tileRow) - 1];
+    let nextRowLetter = ALPHABET[ALPHABET.indexOf(tileRow) + 1];
+
+    if (adjacentTile.getRow() === prevRowLetter ||
+        adjacentTile.getRow() === nextRowLetter) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isColAdjacent(centerTile, adjacentTile) {
+    if (adjacentTile.getCol() === (centerTile.getCol() - 1) ||
+        adjacentTile.getCol() === (centerTile.getCol() + 1)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isAdjacent(centerTile, adjacentTile) {
+    // Filter same tile
+    if (!(centerTile.getCoords() === adjacentTile.getCoords())) {
+        // Filter rows
+        if (isRowAdjacent(centerTile, adjacentTile) ||
+            centerTile.getRow() === adjacentTile.getRow()) {
+
+            // Filter columns
+            if (isColAdjacent(centerTile, adjacentTile) ||
+                centerTile.getCol() === adjacentTile.getCol()) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+
+
 //#endregion
 
 //#region Tile Value Generation
+/**
+ * Computes & assigns values to tiles
+ * Tile values = how many mines are around them
+ */
 function setTileValues() {
-    
-}
+    for (const tileIterator of tiles) {
+        //console.log(`Center tile: ${tileIterator.getCol()}${tileIterator.getRow()}`)
+        if (!tileIterator.isMine()) {
+            let adjacentTiles = tiles.filter(t => isAdjacent(tileIterator, t));
+            let mineCount = adjacentTiles.filter(t => t.isMine()).length;
+            tileIterator.value = mineCount;
+        } else {
+            tileIterator.value = -1;
+        }
+    }
+};
 
 //#endregion
+
+function setTileNum(targetHtmlTile) {
+    let jsTile = getMatchingJSTile(targetHtmlTile);
+    switch (jsTile.value) {
+        case 0:
+            // Don't need to do anything
+            break;
+        case 1:
+            targetHtmlTile.textContent = '1';
+            targetHtmlTile.classList.add('num1')
+            break;
+        case 2:
+            targetHtmlTile.textContent = '2';
+            targetHtmlTile.classList.add('num2')
+            break;
+        case 3:
+            targetHtmlTile.textContent = '3';
+            targetHtmlTile.classList.add('num3')
+            break;
+        case 4:
+            targetHtmlTile.textContent = '4';
+            targetHtmlTile.classList.add('num4')
+            break;
+        case 5:
+            targetHtmlTile.textContent = '5';
+            targetHtmlTile.classList.add('num5')
+            break;
+        case 6:
+            targetHtmlTile.textContent = '6';
+            targetHtmlTile.classList.add('num6')
+            break;
+        case 7:
+            targetHtmlTile.textContent = '7';
+            targetHtmlTile.classList.add('num7')
+            break;
+        case 8:
+            targetHtmlTile.textContent = '8';
+            targetHtmlTile.classList.add('num8')
+            break;
+    }
+}
 
 // get adjacent tiles
 
