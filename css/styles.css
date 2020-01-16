@@ -20,14 +20,16 @@ td {
     user-select: none;
 }
 
-td.hidden, td.flagged {
+td.hidden,
+td.flagged {
     border-bottom: solid 2px #7b7b7b;
     border-right: solid 2px #7b7b7b;
     border-top: solid 2px #fff;
     border-left: solid 2px #fff;
 }
 
-td.pressed, td.mine {
+td.pressed,
+td.mine {
     border-top: solid 1px #7b7b7b;
     border-left: solid 1px #7b7b7b;
     border-bottom: none;
@@ -55,7 +57,7 @@ td.num1 {
 }
 
 td.num2 {
-    color: green   
+    color: green
 }
 
 td.num3 {

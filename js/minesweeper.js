@@ -103,6 +103,12 @@ function onMouseUp(e) {
             revealAdjacentTiles(jsTile);
         }
     }
+    if (winCheck()) {
+
+        for (const htmlTile of cells) {
+            htmlTile.removeEventListener('mouseup', onMouseUp);
+        }
+    }
 };
 
 /**
@@ -113,17 +119,14 @@ function onRightClick(e) {
     e.preventDefault();
     let tile = e.target;
     // Flagging only if not open
-    if (!tile.classList.contains('open')) {
-        // Toggling flag
-        if (tile.classList.contains('flagged')) {
-            tile.classList = ['hidden'];
-            tile.addEventListener('mousedown', onMouseDown);
-            getMatchingJSTile(tile).flagged = false;
-        } else {
-            tile.classList = ['flagged'];
-            tile.removeEventListener('mousedown', onMouseDown);
-            getMatchingJSTile(tile).flagged = true;
-        }
+    if (tile.classList.contains('hidden')) {
+        tile.classList = ['flagged'];
+        tile.removeEventListener('mousedown', onMouseDown);
+        getMatchingJSTile(tile).flagged = true;
+    } else if (tile.classList.contains('flagged')) {
+        tile.classList = ['hidden'];
+        tile.addEventListener('mousedown', onMouseDown);
+        getMatchingJSTile(tile).flagged = false;
     }
 };
 
@@ -328,12 +331,8 @@ function setTileNum(targetHtmlTile) {
 }
 //#endregion
 
-// get adjacent tiles
-
-// reveal adjacent tiles
-
-// flag adjacent tiles
-
-// count flagged adjacent tiles
-
-// get adjacent mine count
+function winCheck() {
+    let flaggedTiles = tiles.filter(t => t.isFlagged());
+    let hiddenTiles = document.querySelectorAll('.hidden');
+    return flaggedTiles.length + hiddenTiles.length === MINE_TOTAL
+}
