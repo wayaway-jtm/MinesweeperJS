@@ -30,7 +30,7 @@ class Tile {
     }
 
     getValue() {
-        return this.value;
+        return Number(this.value);
     }
 
     isMine() {
@@ -74,7 +74,7 @@ setTileValues();
 function onMouseDown(e) {
     e.preventDefault();
     // Trigger only on left click
-    if (e.buttons === 1) {
+    if (e.buttons === 1 && e.target.classList.contains('hidden')) {
         let tile = e.target;
         tile.classList = ['pressed'];
     }
@@ -86,15 +86,22 @@ function onMouseDown(e) {
  */
 function onMouseUp(e) {
     let tile = e.target;
+    let jsTile = tiles.find(t => t.getCoords() === tile.id);
     // Triggering only if pressed first
     if (tile.classList.contains('pressed')) {
-        if (tiles.find(t => t.getCoords() === tile.id).isMine()) {
+        if (jsTile.isMine()) {
             tile.classList = ['mine'];
+        } else if (jsTile.getValue() === 0) {
+            revealTile(tile);
+            revealAdjacentTiles(jsTile);
         } else {
-            tile.classList = ['open'];
-            setTileNum(tile);
+            revealTile(tile);
         }
         tile.removeEventListener('mousedown', onMouseDown);
+    } else if (tile.classList.contains('open')) {
+        if (jsTile.getValue() === getAdjacentFlags(jsTile)) {
+            revealAdjacentTiles(jsTile);
+        }
     }
 };
 
@@ -183,10 +190,11 @@ function getMatchingHTMLTile(tile) {
 
 function getMatchingJSTile(htmlTile) {
     for (const i of tiles) {
-        if (htmlTile.id === i.getCoords()) {
+        if (htmlTile.id == i.getCoords()) {
             return i;
         }
     }
+    console.log('No match found: ', htmlTile);
     return null;
 }
 
@@ -212,16 +220,16 @@ function isColAdjacent(centerTile, adjacentTile) {
     }
 }
 
-function isAdjacent(centerTile, adjacentTile) {
+function isAdjacent(jsCenterTile, jsAdjacentTile) {
     // Filter same tile
-    if (!(centerTile.getCoords() === adjacentTile.getCoords())) {
+    if (!(jsCenterTile.getCoords() === jsAdjacentTile.getCoords())) {
         // Filter rows
-        if (isRowAdjacent(centerTile, adjacentTile) ||
-            centerTile.getRow() === adjacentTile.getRow()) {
+        if (isRowAdjacent(jsCenterTile, jsAdjacentTile) ||
+            jsCenterTile.getRow() === jsAdjacentTile.getRow()) {
 
             // Filter columns
-            if (isColAdjacent(centerTile, adjacentTile) ||
-                centerTile.getCol() === adjacentTile.getCol()) {
+            if (isColAdjacent(jsCenterTile, jsAdjacentTile) ||
+                jsCenterTile.getCol() === jsAdjacentTile.getCol()) {
                 return true;
             }
         }
@@ -229,7 +237,35 @@ function isAdjacent(centerTile, adjacentTile) {
     return false;
 }
 
+function revealTile(htmlTile) {
+    htmlTile.classList = ['open'];
+    setTileNum(htmlTile);
+}
 
+function getAdjacentTiles(jsCenterTile) {
+    return tiles.filter(t => isAdjacent(jsCenterTile, t));
+}
+
+function getAdjacentFlags(jsCenterTile) {
+    let adjacentTiles = getAdjacentTiles(jsCenterTile);
+    return adjacentTiles.filter(t => t.isFlagged()).length;
+}
+
+function revealAdjacentTiles(jsCenterTile) {
+    let adjacentTiles = getAdjacentTiles(jsCenterTile);
+    for (const jsTile of adjacentTiles) {
+        if (!jsTile.isMine()) {
+            let htmlTile = getMatchingHTMLTile(jsTile);
+            if (!htmlTile.classList.contains('open')) {
+                htmlTile.classList = ['open'];
+                setTileNum(htmlTile);
+                if (jsTile.getValue() === 0) {
+                    revealAdjacentTiles(jsTile);
+                }
+            }
+        }
+    }
+}
 
 //#endregion
 
@@ -240,9 +276,8 @@ function isAdjacent(centerTile, adjacentTile) {
  */
 function setTileValues() {
     for (const tileIterator of tiles) {
-        //console.log(`Center tile: ${tileIterator.getCol()}${tileIterator.getRow()}`)
         if (!tileIterator.isMine()) {
-            let adjacentTiles = tiles.filter(t => isAdjacent(tileIterator, t));
+            let adjacentTiles = getAdjacentTiles(tileIterator);
             let mineCount = adjacentTiles.filter(t => t.isMine()).length;
             tileIterator.value = mineCount;
         } else {
@@ -251,11 +286,9 @@ function setTileValues() {
     }
 };
 
-//#endregion
-
 function setTileNum(targetHtmlTile) {
     let jsTile = getMatchingJSTile(targetHtmlTile);
-    switch (jsTile.value) {
+    switch (jsTile.getValue()) {
         case 0:
             // Don't need to do anything
             break;
@@ -293,6 +326,7 @@ function setTileNum(targetHtmlTile) {
             break;
     }
 }
+//#endregion
 
 // get adjacent tiles
 
